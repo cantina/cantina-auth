@@ -1,0 +1,25 @@
+{
+  "author": "Carlos Rodriguez <carlos@s8f.org> (http://s8f.org/)",
+  "name": "cantina-auth",
+  "private": true,
+  "description": "Authentication base plugin for Cantina",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cantina/cantina-auth.git"
+  },
+  "main": "./lib",
+  "scripts": {
+    "test": "make test"
+  },
+  "dependencies": {
+    "pkginfo": "~0.2.3",
+    "passport": "~0.1.8"
+  },
+  "devDependencies": {
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "~0.6.0"
+  }
+}
