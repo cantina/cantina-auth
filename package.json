@@ -13,9 +13,9 @@
     "test": "make test"
   },
   "dependencies": {
-    "pkginfo": "~0.2.3",
-    "passport": "~0.1.8",
-    "connect": "~2.3.0"
+    "cantina-utils": "git+ssh://git@github.com/cantina/cantina-utils.git",
+    "cantina-session": "git+ssh://git@github.com/cantina/cantina-session.git",
+    "passport": "~0.1.10"
   },
   "devDependencies": {
   },
