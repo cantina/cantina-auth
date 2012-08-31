@@ -10,7 +10,7 @@ module.exports = {
   name: 'auth',
 
   dependencies: {
-    "middler": "~1.0.0",
+    "middleware": "~1.0.0",
     "session": "~1.0.0"
   },
 
@@ -31,12 +31,12 @@ module.exports = {
     }
 
     // Add auth middleware.
-    app.middler.add(extendRequest());
-    app.middler.add(passport.initialize());
-    app.middler.add(passport.session());
+    app.middleware.add(extendRequest());
+    app.middleware.add(passport.initialize());
+    app.middleware.add(passport.session());
 
     // Add a logout route.
-    app.middler.get(conf.logoutPath, function(req, res) {
+    app.middleware.get(conf.logoutPath, function(req, res) {
       req.logOut();
       res.redirect(conf.logoutRedirect);
     });
