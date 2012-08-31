@@ -15,7 +15,8 @@ module.exports = {
   },
 
   defaults: {
-    logoutPath: '/logout'
+    logoutPath: '/logout',
+    logoutRedirect: '/'
   },
 
   init: function(app, done) {
@@ -35,9 +36,9 @@ module.exports = {
     app.middler.add(passport.session());
 
     // Add a logout route.
-    app.middler.get('/logout', function(req, res) {
+    app.middler.get(conf.logoutPath, function(req, res) {
       req.logOut();
-      res.redirect('/');
+      res.redirect(conf.logoutRedirect);
     });
 
     app.passport = passport;
