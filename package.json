@@ -3,7 +3,7 @@
   "name": "cantina-auth",
   "private": true,
   "description": "Authentication base plugin for Cantina",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/cantina/cantina-auth.git"
@@ -13,11 +13,10 @@
     "test": "make test"
   },
   "dependencies": {
-    "cantina-utils": "git+ssh://git@github.com/cantina/cantina-utils.git",
-    "cantina-session": "git+ssh://git@github.com/cantina/cantina-session.git",
     "passport": "~0.1.10"
   },
   "devDependencies": {
+    "cantina-session": "git+ssh://git@github.com/cantina/cantina-session.git#1.x",
   },
   "optionalDependencies": {},
   "engines": {
