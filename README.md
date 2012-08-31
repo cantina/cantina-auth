@@ -41,7 +41,7 @@ Example
 -------
 ```js
 var cantina = require('cantina'),
-    plugins = ['cantina-http', 'cantina-middler', 'cantina-auth'],
+    plugins = ['http', 'middleware', 'cantina-auth'],
     conf = { http: {port: 3000} };
 
 cantina.createApp(plugins, conf, function(err, app) {
