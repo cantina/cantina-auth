@@ -19,7 +19,7 @@ module.exports = {
   },
 
   init: function(app, done) {
-    var conf = app.conf.get('session');
+    var conf = app.conf.get('auth');
 
     // Applications can/should provide serialization methods.
     if (app.serializeUser) {
