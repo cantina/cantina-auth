@@ -16,7 +16,7 @@
     "passport": "~0.1.10"
   },
   "devDependencies": {
-    "cantina-session": "git+ssh://git@github.com/cantina/cantina-session.git#1.x",
+    "cantina-session": "git+ssh://git@github.com/cantina/cantina-session.git#1.x"
   },
   "optionalDependencies": {},
   "engines": {
