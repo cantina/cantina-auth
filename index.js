@@ -2,8 +2,7 @@
  * Auth cantina plugin.
  */
 
-var utils = require('cantina-utils'),
-    passport = require('passport');
+var passport = require('passport');
 
 module.exports = {
 
