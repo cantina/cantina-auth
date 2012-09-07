@@ -2,7 +2,8 @@
  * Auth cantina plugin.
  */
 
-var passport = require('passport');
+var passport = require('passport')
+  , parseUrl = require('url').parse
 
 module.exports = {
 
@@ -36,6 +37,10 @@ module.exports = {
         res.writeHead(status || 302, {'Location': url});
         res.end();
       };
+      // Also depends on req.query. sigh.
+      if (!req.query) {
+        req.query = ~req.url.indexOf('?') ? parseUrl(req.url, true).query : {};
+      }
       next();
     });
     app.middleware.add(passport.initialize());
