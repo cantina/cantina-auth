@@ -34,12 +34,20 @@ module.exports = {
     app.middleware.add(function (req, res, next) {
       // Passport on express's res.redirect() so insert shim for that.
       res.redirect = function(url, status) {
+        if (req.session.destination && (!req.query.destination || req.url.indexOf(conf.logoutPath) === 0)) {
+          url = req.session.destination;
+          delete req.session.destination;
+        }
         res.writeHead(status || 302, {'Location': url});
         res.end();
       };
       // Also depends on req.query. sigh.
       if (!req.query) {
         req.query = ~req.url.indexOf('?') ? parseUrl(req.url, true).query : {};
+      }
+      // Add support for ?destination=/some-path
+      if (req.query.destination && !~req.query.destination.indexOf('://')) {
+        req.session.destination = req.query.destination;
       }
       next();
     });
