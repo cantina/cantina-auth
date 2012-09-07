@@ -30,7 +30,14 @@ module.exports = {
     }
 
     // Add auth middleware.
-    app.middleware.add(extendRequest());
+    app.middleware.add(function (req, res, next) {
+      // Passport on express's res.redirect() so insert shim for that.
+      res.redirect = function(url, status) {
+        res.writeHead(status || 302, {'Location': url});
+        res.end();
+      };
+      next();
+    });
     app.middleware.add(passport.initialize());
     app.middleware.add(passport.session());
 
@@ -44,27 +51,3 @@ module.exports = {
     done();
   }
 };
-
-/**
- * Passport relies on req being descended from http.IncomingMessage, and
- * modifies that prototype with custom methods. Bad, bad, bad!
- * This little hack mirrors those methods on req, since union uses a custom set
- * of classes that don't inherit from http.IncomingMessage.
- * Passport also relies on express's res.redirect() so insert shim for that too.
- */
-function extendRequest() {
-  var reqPrototype = require('http').IncomingMessage.prototype;
-  return function(req, res, next) {
-    var methods = ['logIn', 'logOut', 'isAuthenticated', 'isUnauthenticated'], prop;
-    for (var i in methods) {
-      prop = methods[i];
-      req[prop] = reqPrototype[prop].bind(req);
-    }
-    res.redirect = (function(url, status) {
-      this.statusCode = status || 302;
-      this.setHeader('Location', url);
-      this.end();
-    }).bind(res);
-    next();
-  };
-}
