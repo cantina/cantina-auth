@@ -5,13 +5,7 @@ Wraps [passport]() to provde authentication for your cantina application.
 
 Dependencies
 ------------
-- **middler** - A middler instance provided by [cantina-middler](https://github.com/cantina/cantina-middler)
-
-Optional Dependencies
----------------------
-- You application can/should provide:
-  - `app.serializeUser()`
-  - `app.deserializeUser()`
+- **session** - Session middleware provided by [cantina-session](https://github.com/cantina/cantina-session)
 
 Provides
 --------
@@ -37,16 +31,39 @@ Configuration
 }
 ```
 
+Usage
+-----
+Your application MUST listend for the authentication serialization events:
+- `auth:serialize`
+- `auth:deserialize`
+
 Example
 -------
 ```js
-var cantina = require('cantina'),
-    plugins = ['http', 'middleware', 'cantina-auth'],
-    conf = { http: {port: 3000} };
+var app = require('cantina');
 
-cantina.createApp(plugins, conf, function(err, app) {
-  if (err) return console.log(err);
-  // Your application now is set up to handle authentication.
+app.load(function (err) {
+  if (err) return console.error(err);
+
+  // Load plugins.
+  require(app.plugins.http);
+  require(app.plugins.middleware);
+  require('cantina-redis');
+  require('cantina-session');
+  require('cantina-auth');
+
+  // Listen for serialization requests.
+  app.on('auth:serialize', function (user) {
+    return user.id;
+  });
+  app.on('auth:deserialize', function(id, done) {
+    loadUser(id, function(err, user) {
+      done(err, user);
+    });
+  });
+
+  // Initialize the app.
+  app.init();
 });
 ```
 

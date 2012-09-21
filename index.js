@@ -2,48 +2,36 @@
  * Auth cantina plugin.
  */
 
-var passport = require('passport');
+var app = require('cantina'),
+    passport = require('passport');
 
-module.exports = {
-
-  name: 'auth',
-
-  dependencies: {
-    "middleware": "~1.0.0",
-    "session": "~1.0.0"
-  },
-
-  defaults: {
+app.conf.add({
+  auth: {
     logoutPath: '/logout',
     logoutRedirect: '/'
-  },
-
-  init: function(app, done) {
-    var conf = app.conf.get('auth');
-
-    // Applications can/should provide serialization methods.
-    if (app.serializeUser) {
-      passport.serializeUser(app.serializeUser);
-    }
-    if (app.deserializeUser) {
-      passport.deserializeUser(app.deserializeUser);
-    }
-
-    // Add auth middleware.
-    app.middleware.add(extendRequest());
-    app.middleware.add(passport.initialize());
-    app.middleware.add(passport.session());
-
-    // Add a logout route.
-    app.middleware.get(conf.logoutPath, function(req, res) {
-      req.logOut();
-      res.redirect(conf.logoutRedirect);
-    });
-
-    app.passport = passport;
-    done();
   }
-};
+});
+
+app.on('init', function() {
+  var conf = app.conf.get('auth');
+
+  // Applications MUST listen for serialization events.
+  passport.serializeUser(app.invoke.bind(app, 'auth:serialize'));
+  passport.deserializeUser(app.invoke.bind(app, 'auth:deserialize'));
+
+  // Add auth middleware.
+  app.middleware.add(extendRequest());
+  app.middleware.add(passport.initialize());
+  app.middleware.add(passport.session());
+
+  // Add a logout route.
+  app.middleware.get(conf.logoutPath, function(req, res) {
+    req.logOut();
+    res.redirect(conf.logoutRedirect);
+  });
+
+  app.passport = passport;
+});
 
 /**
  * Passport relies on req being descended from http.IncomingMessage, and
@@ -52,7 +40,7 @@ module.exports = {
  * of classes that don't inherit from http.IncomingMessage.
  * Passport also relies on express's res.redirect() so insert shim for that too.
  */
-function extendRequest() {
+function extendRequest () {
   var reqPrototype = require('http').IncomingMessage.prototype;
   return function(req, res, next) {
     var methods = ['logIn', 'logOut', 'isAuthenticated', 'isUnauthenticated'], prop;
