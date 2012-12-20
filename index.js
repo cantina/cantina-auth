@@ -45,10 +45,12 @@ app.on('init', function () {
   app.middleware.add(passport.session());
 
   // Add a logout route.
-  app.middleware.get(conf.logoutPath, function (req, res) {
-    req.logOut();
-    res.redirect(conf.logoutRedirect);
-  });
+  if (conf.logoutPath) {
+    app.middleware.get(conf.logoutPath, function (req, res) {
+      req.logOut();
+      res.redirect(conf.logoutRedirect);
+    });
+  }
 
   app.passport = passport;
 });
