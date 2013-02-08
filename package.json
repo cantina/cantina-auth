@@ -12,16 +12,8 @@
   "scripts": {
     "test": "make test"
   },
-  "peerDependencies": {
-    "cantina": "git+ssh://git@github.com:cantina/cantina.git#2.x",
-    "cantina-session": "git+ssh://git@github.com/cantina/cantina-session.git#2.x"
-  },
   "dependencies": {
     "passport": "~0.1.10"
-  },
-  "devDependencies": {
-    "cantina": "git+ssh://git@github.com:cantina/cantina.git#2.x",
-    "cantina-session": "git+ssh://git@github.com/cantina/cantina-session.git#2.x"
   },
   "optionalDependencies": {},
   "engines": {
