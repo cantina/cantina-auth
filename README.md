@@ -5,7 +5,7 @@ Wraps [passport]() to provde authentication for your cantina application.
 
 Dependencies
 ------------
-- **session** - Session middleware provided by [cantina-session](https://github.com/cantina/cantina-session)
+- Session middleware provided by [cantina-session](https://github.com/cantina/cantina-session)
 
 Provides
 --------
@@ -24,6 +24,7 @@ Configuration
 - **logoutRedirect**: The path a logged-out user should be redirected to.
 
 **Defaults**
+
 ```js
 {
   logoutPath: '/logout',
@@ -33,47 +34,46 @@ Configuration
 
 Usage
 -----
-Your application MUST listend for the authentication serialization events:
-- `auth:serialize`
-- `auth:deserialize`
+Your application MUST provide handlers for serializing and deserializing users.
+
+- app.serializeUser (user) - Returns a user's id.
+- auth:deserialize (id, cb) - Should load user and call `cb` with `(err, user)`
 
 Example
 -------
+
 ```js
 var app = require('cantina');
 
-app.load(function (err) {
-  if (err) return console.error(err);
+app.boot(function (err) {
+  if (err) throw err;
 
-  // Load plugins.
-  require(app.plugins.http);
-  require(app.plugins.middleware);
-  require('cantina-redis');
-  require('cantina-session');
-  require('cantina-auth');
-
-  // Listen for serialization requests.
-  app.on('auth:serialize', function (user) {
+  app.serializeUser = function (user) {
     return user.id;
-  });
-  app.on('auth:deserialize', function(id, done) {
+  };
+  app.deserializeUser = function(id, done) {
     loadUser(id, function(err, user) {
       done(err, user);
     });
-  });
+  };
 
-  // Initialize the app.
-  app.init();
+  require('cantina-web');
+  require('cantina-auth');
+
+  app.start();
 });
 ```
 
 - - -
+
 ### Developed by [Terra Eclipse](http://www.terraeclipse.com)
 Terra Eclipse, Inc. is a nationally recognized political technology and
 strategy firm located in Aptos, CA and Washington, D.C.
+
 - - -
+
 ### License: MIT
-Copyright (C) 2012 Terra Eclipse, Inc. ([http://www.terraeclipse.com](http://www.terraeclipse.com))
+Copyright (C) 2013 Terra Eclipse, Inc. ([http://www.terraeclipse.com](http://www.terraeclipse.com))
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
