@@ -43,7 +43,7 @@ Example
 -------
 
 ```js
-var app = require('cantina');
+var app = require('cantina').createApp();
 
 app.boot(function (err) {
   if (err) throw err;
@@ -57,8 +57,8 @@ app.boot(function (err) {
     });
   };
 
-  require('cantina-web');
-  require('cantina-auth');
+  app.require('cantina-web');
+  app.require('cantina-auth');
 
   app.start();
 });

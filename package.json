@@ -2,13 +2,16 @@
   "name": "cantina-auth",
   "description": "Authentication base plugin for Cantina",
   "version": "4.1.0",
-  "publishConfig": {
-    "registry": "https://npm-registry.terraeclipse.com"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/cantina/cantina-auth.git"
   },
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  ],
   "main": "cantina-auth.js",
   "scripts": {
     "test": "make test"
