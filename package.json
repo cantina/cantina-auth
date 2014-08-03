@@ -1,7 +1,7 @@
 {
   "name": "cantina-auth",
   "description": "Authentication base plugin for Cantina",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/cantina/cantina-auth.git"
