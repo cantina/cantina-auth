@@ -21,7 +21,7 @@
     "href": "~0.1.1"
   },
   "peerDependencies": {
-    "cantina-session": "~4.1.0"
+    "cantina-session": "^4.1.0"
   },
   "optionalDependencies": {},
   "author": "Carlos Rodriguez <carlos@s8f.org> (http://s8f.org/)"
